@@ -1,0 +1,377 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showlex Plumbing Solutions | Luxury Plumbing Solutions</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0A1628;
+            --accent: #1E90FF;
+            --cta: #F5A623;
+            --cta-hover: #D48C1C;
+            --white: #FFFFFF;
+            --text-main: #1A202C;
+            --text-light: #718096;
+            --bg-dark: #050b14;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- SMOOTH CORE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background: var(--white);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* --- ANIMATION ENGINE --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition);
+            will-change: transform, opacity;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(10, 22, 40, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--white); }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: rgba(255,255,255,0.9); font-weight: 500; font-size: 0.95rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- HERO --- */
+        .hero {
+            position: relative;
+            padding: 200px 0 140px;
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(10, 22, 40, 0.6), rgba(10, 22, 40, 0.9)),
+                        url('https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            z-index: 1;
+        }
+        .hero .container { position: relative; z-index: 2; }
+        .hero h1 { font-family: 'Poppins', sans-serif; font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; margin-bottom: 24px; letter-spacing: -2px; }
+        .hero p { font-size: 1.25rem; max-width: 700px; margin: 0 auto 40px; color: #CBD5E1; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 16px 36px; border-radius: 12px; font-weight: 600; cursor: pointer;
+            transition: var(--transition); text-decoration: none; border: none; font-size: 1rem;
+        }
+        .btn-primary { background: var(--cta); color: var(--primary); }
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(245, 166, 35, 0.4); }
+        .btn-outline { border: 2px solid var(--white); color: var(--white); margin-left: 15px; }
+        .btn-outline:hover { background: var(--white); color: var(--primary); }
+
+        /* --- LUXURY GALLERY --- */
+        .gallery { padding: 120px 0; background: var(--bg-dark); color: var(--white); }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-header h2 { font-family: 'Poppins', sans-serif; font-size: 3rem; margin-bottom: 16px; }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+        }
+        .gallery-card {
+            position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5;
+            background: #111; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .gallery-card img {
+            width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease;
+        }
+        .gallery-card:hover img { transform: scale(1.1); }
+        .gallery-info {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+        .gallery-info h3 { font-size: 1.5rem; margin-bottom: 5px; color: var(--cta); }
+        .gallery-info p { font-size: 0.9rem; color: #94A3B8; }
+
+        /* --- SERVICES --- */
+        .services { padding: 120px 0; background: #F8FAFC; }
+        .services-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;
+        }
+        .service-card {
+            background: var(--white); padding: 48px; border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: var(--transition);
+        }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .icon-box { font-size: 3rem; margin-bottom: 24px; }
+
+        /* --- CONTACT --- */
+        .contact { padding: 120px 0; background: var(--white); }
+        .contact-flex { display: flex; flex-wrap: wrap; gap: 80px; }
+        .contact-text { flex: 1; min-width: 320px; }
+        .contact-form {
+            flex: 1.2; min-width: 320px; background: #F8FAFC;
+            padding: 48px; border-radius: 32px;
+        }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 16px; border: 2px solid #E2E8F0; border-radius: 12px;
+            font-family: inherit; transition: 0.3s;
+        }
+        .input-group input:focus { outline: none; border-color: var(--accent); }
+
+        /* --- MOBILE TOGGLE --- */
+        .mobile-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+        .mobile-toggle span { width: 30px; height: 3px; background: var(--white); border-radius: 3px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: flex; }
+            .hero h1 { font-size: 3rem; }
+            .btn-outline { margin-left: 0; margin-top: 15px; }
+            .hero-btns { display: flex; flex-direction: column; padding: 0 20px; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .nav-links.active {
+                display: flex; flex-direction: column; position: absolute; top: 75px; left: 0;
+                width: 100%; background: var(--primary); padding: 40px; gap: 20px; border-bottom: 2px solid var(--accent);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">SHOWLEX <span>HOME</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#gallery">Collection</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="tel:+1234567890" class="btn btn-primary" style="padding: 10px 20px;">📞 Call Now</a></li>
+            </ul>
+            <div class="mobile-toggle" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <h1 class="reveal">Engineering Modern Elegance.</h1>
+            <p class="reveal">Professional residential and commercial plumbing tailored for the modern home. Reliable solutions, delivered with premium craftsmanship.</p>
+            <div class="hero-btns reveal">
+                <a href="#contact" class="btn btn-primary">Get a Free Quote</a>
+                <a href="#gallery" class="btn btn-outline">Our Collection</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="reveal">The Premium Series</h2>
+                <p class="reveal">A selection of modern fixtures and elite installations by Showlex.</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <!-- Card 1: Matte Black Kitchen -->
+                <div class="gallery-card reveal">
+                    <img src="https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=800&auto=format&fit=crop" alt="Matte Black Kitchen">
+                    <div class="gallery-info">
+                        <h3>Elite Kitchens</h3>
+                        <p>Matte Black & Gold Fusion</p>
+                    </div>
+                </div>
+                <!-- Card 2: Luxury Shower -->
+                <div class="gallery-card reveal">
+                    <img src="https://images.unsplash.com/photo-1620626011761-9963d7b69763?q=80&w=800&auto=format&fit=crop" alt="Luxury Shower">
+                    <div class="gallery-info">
+                        <h3>Spa Retreats</h3>
+                        <p>Multi-Head Rainfall Systems</p>
+                    </div>
+                </div>
+                <!-- Card 3: Modern Basin -->
+                <div class="gallery-card reveal">
+                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop" alt="Stone Basin">
+                    <div class="gallery-info">
+                        <h3>Stone Ceramics</h3>
+                        <p>Minimalist Gray Collections</p>
+                    </div>
+                </div>
+                <!-- Card 4: Gold Fixtures -->
+                <div class="gallery-card reveal">
+                    <img src="https://images.unsplash.com/photo-1585791740258-9c2f83732d84?q=80&w=800&auto=format&fit=crop" alt="Gold Fixtures">
+                    <div class="gallery-info">
+                        <h3>Amber Gold</h3>
+                        <p>Premium Brushed Brass Accents</p>
+                    </div>
+                </div>
+                <!-- Card 5: Smart Toilet -->
+                <div class="gallery-card reveal">
+                    <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=800&auto=format&fit=crop" alt="Modern Bathroom">
+                    <div class="gallery-info">
+                        <h3>Smart Toilets</h3>
+                        <p>Wall-Mounted Sanitary Tech</p>
+                    </div>
+                </div>
+                <!-- Card 6: Piping Excellence -->
+                <div class="gallery-card reveal">
+                    <img src="https://images.unsplash.com/photo-1542013936693-884638332954?q=80&w=800&auto=format&fit=crop" alt="Plumbing Infrastructure">
+                    <div class="gallery-info">
+                        <h3>Built to Last</h3>
+                        <p>Expert Core Infrastructure</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="reveal" style="color: var(--primary);">Master Services</h2>
+                <p class="reveal" style="color: var(--text-light);">Excellence in every installation and repair.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="icon-box">🚿</div>
+                    <h3>Bathroom Design</h3>
+                    <p>Transforming ordinary spaces into luxury wet rooms with precision plumbing.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="icon-box">🍳</div>
+                    <h3>Kitchen Upgrades</h3>
+                    <p>High-end faucet installations and seamless appliance integration.</p>
+                </div>
+                <div class="service-card reveal">
+                    <div class="icon-box">🚨</div>
+                    <h3>24/7 Response</h3>
+                    <p>Urgent care for floods, bursts, and system failures when you need it most.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-flex">
+                <div class="contact-text reveal">
+                    <h2 style="font-size: 3rem; font-family: 'Poppins'; line-height: 1.1; margin-bottom: 20px;">Let's Start Your Transformation.</h2>
+                    <p style="color: var(--text-light); margin-bottom: 40px; font-size: 1.1rem;">Whether it's a luxury renovation or an urgent repair, our master plumbers are ready.</p>
+                    
+                    <div style="margin-bottom: 24px;">
+                        <span style="display:block; font-weight:800; color:var(--accent);">PHONE</span>
+                        <a href="tel:+1234567890" style="font-size: 1.5rem; font-weight: 700;">+1 (234) 567-890</a>
+                    </div>
+                    <div>
+                        <span style="display:block; font-weight:800; color:var(--accent);">INSTAGRAM</span>
+                        <a href="https://instagram.com/showlex.plumbing.solution" target="_blank" style="font-size: 1.1rem;">@showlex.plumbing.solution</a>
+                    </div>
+                </div>
+
+                <div class="contact-form reveal">
+                    <form id="quoteForm">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Enter your name" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Service Type</label>
+                            <select>
+                                <option>Luxury Installation</option>
+                                <option>Emergency Repair</option>
+                                <option>General Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Message</label>
+                            <textarea rows="4" placeholder="How can we help?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Request →</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 80px 0; background: var(--primary); color: white; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div class="container" style="text-align: center;">
+            <div class="logo" style="margin-bottom: 20px;">SHOWLEX <span>HOME</span></div>
+            <p style="color: #94A3B8; font-size: 0.9rem;">© 2025 Showlex Plumbing Solutions. Premium Quality Guaranteed.</p>
+        </div>
+    </footer>
+
+    <script>
+        // TOGGLE MOBILE MENU
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // SMOOTH REVEAL ANIMATIONS
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Once animated, we don't need to observe it anymore
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // FORM HANDLER
+        document.getElementById('quoteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            btn.innerText = 'Sending...';
+            setTimeout(() => {
+                btn.innerText = '✅ Request Sent!';
+                btn.style.background = '#28a745';
+                this.reset();
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
+
+```
+
